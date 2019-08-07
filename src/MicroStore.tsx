@@ -5,6 +5,7 @@ import React, {
   Reducer,
   Context,
 } from 'react';
+import { noop, identity } from './utils';
 
 export interface DefaultContextProvider {
   state: unknown;
@@ -13,18 +14,24 @@ export interface DefaultContextProvider {
 
 export interface MicroStoreProviderProps {
   initialState?: Record<string, any>;
-  reducer: Reducer<unknown, unknown>;
-  children: ReactNode;
+  reducer?: Reducer<unknown, unknown>;
   context?: Context<DefaultContextProvider>;
+  children: ReactNode;
 }
 
 export const MicroStoreContext = createContext<DefaultContextProvider>({
   state: {},
-  dispatch: () => {},
+  dispatch: noop,
 });
 
 export function MicroStoreProvider(props: MicroStoreProviderProps) {
-  const { initialState = {}, children, reducer, context, ...restProps } = props;
+  const {
+    initialState = {},
+    reducer = identity,
+    children,
+    context,
+    ...restProps
+  } = props;
 
   const [state, dispatch] = useReducer(reducer, initialState);
 

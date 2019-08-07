@@ -13,9 +13,7 @@ export function useMicroStore<
   const { state, dispatch } = useContext(context || MicroStoreContext);
 
   const mappedState = mapStateToProps ? mapStateToProps(state) : state;
-  const mappedDispatch = mapDispatchToProps
-    ? mapDispatchToProps(dispatch)
-    : { dispatch };
+  const mappedDispatch = mapDispatchToProps ? mapDispatchToProps(dispatch) : {};
 
   return {
     ...mappedState,
